@@ -2,6 +2,7 @@
 public
 node_modules
 yarn.lock
+**/*.config.js
 package-lock.json
 **/*.test.js
 coverage
