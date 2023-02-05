@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import AmazonLogo from 'public/amazon-logo.png';
-import SearchBar from 'components/SearchBar';
+import SearchBar from 'components/common/SearchBar';
 import { CSSProperties } from 'react';
 import CartIcon from 'public/svg/CartIcon.svg';
 import MenuIcon from 'public/svg/MenuIcon.svg';
