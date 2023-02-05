@@ -1,18 +1,15 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  mode: "jit",
-  darkMode: false,
-  purge: [
-    "./pages/**/*.{js,ts,tsx}",
-    "./components/**/*.{js,ts,tsx}",
-  ],
+  mode: 'jit',
+  media: false,
+  purge: ['./pages/**/*.{js,ts,tsx}', './components/**/*.{js,ts,tsx}'],
   theme: {
     extend: {
       colors: {
         amazon_blue: {
-          light: "#232F3E",
-          default: "#131921",
-        }
+          light: '#232F3E',
+          DEFAULT: '#131921',
+        },
       },
     },
   },
@@ -20,4 +17,4 @@ module.exports = {
     extend: {},
   },
   plugins: [],
-}
+};
