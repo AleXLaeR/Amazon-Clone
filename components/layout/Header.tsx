@@ -1,7 +1,10 @@
-import Image from 'next/image';
-import AmazonLogo from 'public/amazon-logo.png';
-import SearchBar from 'components/common/SearchBar';
 import { CSSProperties } from 'react';
+import SearchBar from 'components/common/SearchBar';
+
+import Image from 'next/image';
+import { signIn, signOut, useSession } from 'next-auth/react';
+
+import AmazonLogo from 'public/amazon-logo.png';
 import CartIcon from 'public/svg/CartIcon.svg';
 import MenuIcon from 'public/svg/MenuIcon.svg';
 
@@ -12,6 +15,16 @@ const LogoStyles: CSSProperties = {
 };
 
 export default function Header() {
+  const { data: session, status } = useSession();
+
+  const onLoginBtnClick = async () => {
+    if (status === 'authenticated') {
+      await signOut();
+    } else {
+      await signIn();
+    }
+  };
+
   return (
     <div>
       <div className="flex items-center bg-amazon_blue p-1 flex-grow py-2">
@@ -20,8 +33,8 @@ export default function Header() {
         </div>
         <SearchBar />
         <div className="text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap">
-          <div className="link">
-            <p>Hello, Olexandr Lazarenko</p>
+          <div className="link" onClick={onLoginBtnClick} role="presentation">
+            <p>{`Hello, ${session ? `${session.user!.name}` : 'Please Sign In!'}`}</p>
             <p className="p-x-bold">Account & Lists</p>
           </div>
           <div className="link">

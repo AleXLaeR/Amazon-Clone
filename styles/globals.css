@@ -8,8 +8,7 @@
   }
 
   .lg-hidden-link {
-    composes: link;
-    @apply hidden lg:inline-flex;
+    @apply hidden lg:inline-flex link;
   }
 
   .p-x-bold {
