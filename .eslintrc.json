@@ -12,7 +12,9 @@
   "rules": {
     "react/react-in-jsx-scope": 0,
     "react/jsx-props-no-spreading": 0,
-    "no-shadow": 0
+    "no-shadow": 0,
+    "no-console": 0,
+    "@typescript-eslint/no-unused-vars": "warn"
   },
   "plugins": [
     "@typescript-eslint",
