@@ -28,8 +28,8 @@ const { actions, reducer } = createSlice({
         );
       }
     },
-    removeProduct: (state, { payload }: PayloadAction<Product>) => {
-      state.products = state.products.filter(({ id }) => id !== payload.id);
+    removeProduct: (state, { payload }: PayloadAction<number>) => {
+      state.products = state.products.filter(({ id }) => id !== payload);
     },
   },
 });
@@ -43,6 +43,10 @@ export const selectProducts = createSelector(
 export const selectQuantity = createSelector(
   (state: RootState, productId: number) => state.cart.products.find(({ id }) => id === productId),
   (product) => product?.quantity ?? 0,
+);
+export const selectSubTotal = createSelector(
+  (state: RootState) => state.cart.products,
+  (products) => products.reduce((acc, { quantity }) => acc + quantity, 0),
 );
 
 export default reducer;

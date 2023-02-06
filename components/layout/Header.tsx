@@ -1,4 +1,4 @@
-import { CSSProperties, useMemo } from 'react';
+import { CSSProperties } from 'react';
 import SearchBar from 'components/common/SearchBar';
 
 import Image from 'next/image';
@@ -10,7 +10,7 @@ import CartIcon from 'public/svg/CartIcon.svg';
 import MenuIcon from 'public/svg/MenuIcon.svg';
 
 import { useAppSelector } from 'redux/hooks';
-import { selectProducts } from 'redux/slices/cart.slice';
+import { selectSubTotal } from 'redux/slices/cart.slice';
 
 const LogoStyles: CSSProperties = {
   width: 150,
@@ -31,16 +31,11 @@ const productCategories = [
 
 export default function Header() {
   const { data: session, status } = useSession();
-  const products = useAppSelector(selectProducts);
+  const totalCartItemQuantity = useAppSelector(selectSubTotal);
 
   const onLoginBtnClick = async () => {
     await (status === 'authenticated' ? signOut() : signIn());
   };
-
-  const cartProductAmount = useMemo(
-    () => products.reduce((acc, { quantity }) => acc + quantity, 0),
-    [products],
-  );
 
   return (
     <div>
@@ -68,7 +63,7 @@ export default function Header() {
           <Link href="/checkout">
             <div className="link relative flex items-center">
               <span className="absolute top-0 right-0 md:right-7 h-4 w-4 bg-yellow-400 text-center rounded-full text-black font-bold">
-                {cartProductAmount}
+                {totalCartItemQuantity}
               </span>
               <CartIcon className="h-10" />
               <p className="hidden md:inline md:text-sm mt-2 p-x-bold">Cart</p>
