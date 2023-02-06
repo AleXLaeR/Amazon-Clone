@@ -1,14 +1,18 @@
 import SEO from 'components/SEO';
+import CheckoutItem from 'components/checkout/CheckoutItem';
+
+import { useMemo } from 'react';
+import { NumericFormat } from 'react-number-format';
 
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';
+
+import stripePromise from 'lib/stripe';
 import AdBanner from 'public/ad-checkout.png';
 
 import { useAppSelector } from 'redux/hooks';
 import { selectProducts, selectSubTotal } from 'redux/slices/cart.slice';
-import CheckoutItem from 'components/checkout/CheckoutItem';
-import { NumericFormat } from 'react-number-format';
-import { useMemo } from 'react';
-import { useSession } from 'next-auth/react';
+import axios from 'axios';
 
 export default function Checkout() {
   const { data: session } = useSession();
@@ -20,6 +24,23 @@ export default function Checkout() {
     () => products.reduce((acc, { price, quantity }) => acc + price * quantity, 0),
     [products],
   );
+
+  const createCheckoutSession = async () => {
+    const stripe = await stripePromise;
+
+    const { data } = await axios.post('/api/create-checkout-session', {
+      products,
+      email: session?.user?.email ?? null,
+    });
+
+    const result = await stripe?.redirectToCheckout({
+      sessionId: (data as { id: string; error?: unknown }).id,
+    });
+
+    if (result?.error) {
+      alert(result?.error.message ?? 'Stripe error occurred!');
+    }
+  };
 
   return (
     <div className="bg-gray-100 border-0">
@@ -61,6 +82,7 @@ export default function Checkout() {
               <button
                 type="submit"
                 disabled={!session}
+                onClick={createCheckoutSession}
                 className={`btn w-full mt-2 ${
                   !session &&
                   'from-gray-300 to-gray-500 border-gray-200 text-gray-300 disabled:pointer-events-none'

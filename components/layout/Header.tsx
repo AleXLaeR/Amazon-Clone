@@ -77,7 +77,9 @@ export default function Header() {
           All
         </p>
         {productCategories.map((category, idx) => (
-          <p className={`${idx < 3 ? 'link' : 'lg-hidden-link'}`}>{category}</p>
+          <p key={idx} className={`${idx < 3 ? 'link' : 'lg-hidden-link'}`}>
+            {category}
+          </p>
         ))}
       </div>
     </div>
