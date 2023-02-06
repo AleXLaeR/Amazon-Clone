@@ -18,20 +18,18 @@ const defaultCarouselProps: Partial<CarouselProps> = {
   transitionTime: 5e2,
 };
 
+const images = [CarouselImg_1, CarouselImg_2, CarouselImg_3];
+
 export default function BannerCarousel() {
   return (
     <div className="relative">
       <div className="absolute w-full h-32 bg-gradient-to-t from-gray-100 to-transparent bottom-0 z-20" />
       <Carousel {...defaultCarouselProps}>
-        <div>
-          <Image src={CarouselImg_1} alt="item 1" loading="lazy" />
-        </div>
-        <div>
-          <Image src={CarouselImg_2} alt="item 2" loading="lazy" />
-        </div>
-        <div>
-          <Image src={CarouselImg_3} alt="item 3" loading="lazy" />
-        </div>
+        {images.map((image, idx) => (
+          <div key={idx}>
+            <Image src={image} alt={`slide ${idx + 1}`} loading="lazy" priority={false} />
+          </div>
+        ))}
       </Carousel>
     </div>
   );
