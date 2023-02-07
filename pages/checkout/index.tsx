@@ -28,13 +28,13 @@ export default function Checkout() {
   const createCheckoutSession = async () => {
     const stripe = await stripePromise;
 
-    const { data } = await axios.post('/api/create-checkout-session', {
+    const { data } = await axios.post<{ id: string }>('/api/create-checkout-session', {
+      email: session?.user?.email ?? 'E-Mail was not provided',
       products,
-      email: session?.user?.email ?? null,
     });
 
     const result = await stripe?.redirectToCheckout({
-      sessionId: (data as { id: string; error?: unknown }).id,
+      sessionId: data.id,
     });
 
     if (result?.error) {

@@ -1,15 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { CartProduct } from 'typing';
-import Stripe from 'stripe';
-
-const { checkout } = new Stripe(process.env.REACT_APP_STRIPE_SKEY!, {
-  apiVersion: '2022-11-15',
-});
+import { checkout } from 'lib/stripe';
 
 interface CheckoutNextApiRequest extends NextApiRequest {
   body: {
     products: CartProduct[];
-    email: string | null;
+    email: string;
   };
 }
 
@@ -32,7 +28,7 @@ export default async ({ body }: CheckoutNextApiRequest, res: NextApiResponse) =>
   let sessionId: string;
   try {
     const { id } = await checkout.sessions.create({
-      success_url: `${process.env.HOST}/success`,
+      success_url: `${process.env.HOST}/checkout/success`,
       cancel_url: `${process.env.HOST}/checkout`,
       shipping_options: [
         {
