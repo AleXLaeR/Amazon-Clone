@@ -14,6 +14,9 @@ export default function ProductRating({ rating = 5, starSize = 26 }: ProductRati
       allowFraction
       readonly
       size={starSize}
+      // needed to correctly synchronize client-driven props with server ones
+      transition
+      style={{ cursor: undefined }}
     />
   );
 }

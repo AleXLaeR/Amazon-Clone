@@ -27,7 +27,7 @@ export default function BannerCarousel() {
       <Carousel {...defaultCarouselProps}>
         {images.map((image, idx) => (
           <div key={idx}>
-            <Image src={image} alt={`slide ${idx + 1}`} loading="lazy" priority={false} />
+            <Image src={image} alt={`slide ${idx + 1}`} priority />
           </div>
         ))}
       </Carousel>

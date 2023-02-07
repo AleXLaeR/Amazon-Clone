@@ -19,7 +19,12 @@
     "react/no-array-index-key": "warn",
     "react/require-default-props": 0,
     "import/no-cycle": "warn",
-    "no-param-reassign": 0
+    "no-param-reassign": 0,
+    "no-restricted-exports": [
+      "error", {
+        "restrictDefaultExports": { "namedFrom": true }
+      }
+    ]
   },
   "plugins": [
     "@typescript-eslint",

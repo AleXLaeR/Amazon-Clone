@@ -1,5 +1,7 @@
 import { initializeApp } from 'firebase/app';
-// TODO: Add SDKs for Firebase products that you want to use
+import * as admin from 'firebase-admin';
+import { ServiceAccount } from 'firebase-admin';
+import serviceAccount from 'fb-permissions.json';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBpQnNUn1YMbvFzt4hrPBiT3Y9X6586N2A',
@@ -11,3 +13,15 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+
+// eslint-disable-next-line import/no-mutable-exports
+let adminApp: admin.app.App;
+if (admin.apps.length === 0) {
+  adminApp = admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount as ServiceAccount),
+  });
+} else {
+  adminApp = admin.app();
+}
+
+export { adminApp as default };

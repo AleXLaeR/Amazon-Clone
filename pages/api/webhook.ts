@@ -4,20 +4,10 @@ import { buffer } from 'micro';
 import { StatusCodes } from 'http-status-codes';
 import { webhooks, StripeSession, StripeEvent, StripeSessionMetadata } from 'lib/stripe';
 
-import * as admin from 'firebase-admin';
-import { ServiceAccount } from 'firebase-admin';
-import serviceAccount from 'fb-permissions.json';
+import app from 'lib/firebase';
+import { firestore } from 'firebase-admin';
 
 const getSafePercent = (num?: number | null, fallback = 0): number => (num ?? fallback) / 100;
-
-let app: admin.app.App;
-if (admin.apps.length === 0) {
-  app = admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount as ServiceAccount),
-  });
-} else {
-  app = admin.app();
-}
 
 const endpointSecret = process.env.STRIPE_SIGNING_SECRET!;
 
@@ -34,7 +24,7 @@ const fulfillOrder = async ({ id, metadata, amount_total, total_details }: Strip
       amount: getSafePercent(amount_total),
       amount_shipping: getSafePercent(total_details?.amount_shipping),
       images: JSON.parse(images),
-      timestamp: admin.firestore.FieldValue.serverTimestamp(),
+      timestamp: firestore.FieldValue.serverTimestamp(),
     })
     .then(() => console.log(`Order was successful! Order ${id} has been added to the database.`));
 };
