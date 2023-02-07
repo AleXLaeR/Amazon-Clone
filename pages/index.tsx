@@ -1,10 +1,9 @@
-import Head from 'next/head';
+import { GetStaticProps } from 'next';
+import { HomePageProps } from 'typing';
+
+import SEO from 'components/SEO';
 import BannerCarousel from 'components/BannerCarousel';
 import ProductList from 'components/product/ProductList';
-import { GetServerSideProps } from 'next';
-import { HomePageProps, Product } from 'typing';
-import React from 'react';
-import SEO from '../components/SEO';
 
 export default function Home({ products }: HomePageProps) {
   return (
@@ -18,11 +17,12 @@ export default function Home({ products }: HomePageProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const products = await fetch('https://fakestoreapi.com/products');
-  const data = await products.json();
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  // const products = await fetch('https://fakestoreapi.com/products');
+  // const data = await products.json();
+  const { default: products } = await import('products.json');
 
   return {
-    props: { products: data as Product[] },
+    props: { products },
   };
 };
