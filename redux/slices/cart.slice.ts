@@ -27,10 +27,13 @@ const { actions, reducer } = createSlice({
     removeProduct: (state, { payload }: PayloadAction<number>) => {
       state.products = state.products.filter(({ id }) => id !== payload);
     },
+    clearCart: (state) => {
+      state.products = [];
+    },
   },
 });
 
-export const { addProduct, removeProduct } = actions;
+export const { addProduct, removeProduct, clearCart } = actions;
 
 export const selectProducts = createSelector(
   ({ cart }: RootState) => cart.products,

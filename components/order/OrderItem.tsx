@@ -28,23 +28,21 @@ export default function OrderItem({ order }: OrderItemProps) {
           </p>
         </div>
         <p className="text-sm whitespace-nowrap sm:text-xl underline underline-offset-2 self-end flex-grow text-right text-blue-500">
-          {products.length} items total
+          {products.reduce((acc, product) => acc + (product?.quantity ?? 0), 0)} items total
         </p>
         <h4 className="absolute top-2 right-2 w-32 truncate lg:w-auto">Order: # {id}</h4>
       </div>
       <div className="p-5 sm:p-8 border-y-2">
         <div className="flex space-x-6 overflow-x-auto pb-4">
-          {images
-            .flatMap((i) => [i, i, i])
-            ?.map((image, idx) => (
-              <Image
-                src={image}
-                alt={`image ${idx + 1}`}
-                width={120}
-                height={120}
-                className="object-contain border-x-2 px-2"
-              />
-            ))}
+          {images?.map((image, idx) => (
+            <Image
+              src={image}
+              alt={`image ${idx + 1}`}
+              width={120}
+              height={120}
+              className="object-contain border-x-2 px-2"
+            />
+          ))}
         </div>
       </div>
     </div>

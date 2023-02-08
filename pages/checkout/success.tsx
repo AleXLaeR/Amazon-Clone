@@ -1,8 +1,18 @@
-import CheckMarkIcon from 'public/svg/check-mark.svg';
-import SEO from 'components/SEO';
 import Link from 'next/link';
+import SEO from 'components/SEO';
+import CheckMarkIcon from 'public/svg/check-mark.svg';
+
+import { useEffect } from 'react';
+import { useAppDispatch } from 'redux/hooks';
+import { clearCart } from 'redux/slices/cart.slice';
 
 export default function Success() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(clearCart());
+  }, [dispatch]);
+
   return (
     <div className="bg-gray-100 h-screen pt-10">
       <SEO title="Checkout Success" desc="Checkout payment was successful" />
