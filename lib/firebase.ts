@@ -1,4 +1,8 @@
-import { initializeApp } from 'firebase/app';
+/* eslint-disable import/no-mutable-exports */
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
+import { DocumentData, QueryDocumentSnapshot } from '@firebase/firestore-types';
+
 import * as admin from 'firebase-admin';
 import { ServiceAccount } from 'firebase-admin';
 import serviceAccount from 'fb-permissions.json';
@@ -12,9 +16,13 @@ const firebaseConfig = {
   appId: '1:715044423913:web:78fd9e307a96f55fd84878',
 };
 
-const app = initializeApp(firebaseConfig);
+let app: firebase.app.App;
+if (!firebase?.apps.length) {
+  app = firebase.initializeApp(firebaseConfig);
+} else {
+  app = firebase.app();
+}
 
-// eslint-disable-next-line import/no-mutable-exports
 let adminApp: admin.app.App;
 if (admin.apps.length === 0) {
   adminApp = admin.initializeApp({
@@ -24,4 +32,11 @@ if (admin.apps.length === 0) {
   adminApp = admin.app();
 }
 
-export { adminApp as default };
+export const convertTo = <T extends object>() => ({
+  toFirestore: (doc: T): DocumentData => doc,
+  fromFirestore: (snapshot: QueryDocumentSnapshot): T => (snapshot.data() ?? {}) as T,
+});
+
+export const db = app.firestore();
+
+export default adminApp;

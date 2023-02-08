@@ -1,8 +1,9 @@
 import SEO from 'components/SEO';
 import CheckoutItem from 'components/checkout/CheckoutItem';
+import CurrencyFormat from 'components/common/CurrencyFormat';
 
+import axios from 'axios';
 import { useMemo } from 'react';
-import { NumericFormat } from 'react-number-format';
 
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
@@ -12,7 +13,6 @@ import AdBanner from 'public/ad-checkout.png';
 
 import { useAppSelector } from 'redux/hooks';
 import { selectProducts, selectSubTotal } from 'redux/slices/cart.slice';
-import axios from 'axios';
 
 export default function Checkout() {
   const { data: session } = useSession();
@@ -69,15 +69,7 @@ export default function Checkout() {
             <div className="w-fit sticky top-4">
               <h2 className="font-semibold border-b-2 border-gray-400 whitespace-nowrap">
                 Subtotal ({totalItemQuantity} items):{' '}
-                <NumericFormat
-                  value={totalProductPrice}
-                  className="font-bold inline"
-                  displayType="text"
-                  thousandSeparator
-                  prefix="$"
-                  fixedDecimalScale
-                  decimalScale={2}
-                />
+                <CurrencyFormat value={totalProductPrice} className="text-lg font-bold inline" />
               </h2>
               <button
                 type="submit"
