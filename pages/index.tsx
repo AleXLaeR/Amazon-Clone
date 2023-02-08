@@ -1,9 +1,10 @@
-import { GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import { HomePageProps } from 'typing';
 
 import SEO from 'components/SEO';
 import BannerCarousel from 'components/BannerCarousel';
 import ProductList from 'components/product/ProductList';
+import { getSession } from 'next-auth/react';
 
 export default function Home({ products }: HomePageProps) {
   return (
@@ -17,12 +18,14 @@ export default function Home({ products }: HomePageProps) {
   );
 }
 
-export const getStaticProps: GetStaticProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getSession(ctx);
+
   // const products = await fetch('https://fakestoreapi.com/products');
   // const data = await products.json();
   const { default: products } = await import('products.json');
 
   return {
-    props: { products },
+    props: { products, session },
   };
 };

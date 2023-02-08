@@ -56,10 +56,12 @@ export default function Header() {
             <p>{`Hello, ${session ? `${session.user!.name}` : 'Please Sign In!'}`}</p>
             <p className="p-x-bold">Account & Lists</p>
           </div>
-          <div className="link">
-            <p>Returns</p>
-            <p className="p-x-bold">& Orders</p>
-          </div>
+          <Link href="/orders">
+            <div className="link">
+              <p>Returns</p>
+              <p className="p-x-bold">& Orders</p>
+            </div>
+          </Link>
           <Link href="/checkout">
             <div className="link relative flex items-center">
               <span className="absolute top-0 right-0 md:right-7 h-4 w-4 bg-yellow-400 text-center rounded-full text-black font-bold">
