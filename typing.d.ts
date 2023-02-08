@@ -13,6 +13,15 @@ export type Product = {
   rating?: ProductRating;
 };
 
+export type StripeOrder = {
+  id: string;
+  amount: number;
+  amount_shipping: number;
+  images: string[];
+  timestamp: any;
+  products: any[];
+};
+
 export interface CartProduct extends Product {
   quantity: number;
 }
