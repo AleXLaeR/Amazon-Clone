@@ -33,15 +33,15 @@ const { actions, reducer } = createSlice({
 export const { addProduct, removeProduct } = actions;
 
 export const selectProducts = createSelector(
-  (state: RootState) => state.cart.products,
+  ({ cart }: RootState) => cart.products,
   (products) => products,
 );
 export const selectQuantity = createSelector(
-  (state: RootState, productId: number) => state.cart.products.find(({ id }) => id === productId),
+  ({ cart }: RootState, productId: number) => cart.products.find(({ id }) => id === productId),
   (product) => product?.quantity ?? 0,
 );
 export const selectSubTotal = createSelector(
-  (state: RootState) => state.cart.products,
+  ({ cart }: RootState) => cart.products,
   (products) => products.reduce((acc, { quantity }) => acc + quantity, 0),
 );
 
