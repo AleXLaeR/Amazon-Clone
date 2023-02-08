@@ -39,7 +39,7 @@ export default function Header() {
 
   return (
     <div>
-      <div className="flex items-center bg-amazon_blue p-1 flex-grow py-2">
+      <div className="flex justify-between sm:items-center bg-amazon_blue p-1 py-2">
         <Link href="/">
           <div className="mt-2 flex items-center flex-grow sm:flex-grow-0">
             <Image

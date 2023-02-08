@@ -4,12 +4,13 @@ import Image from 'next/image';
 import DefaultProductImg from 'public/default-product.png';
 import AmazonPrimeImg from 'public/amazon-prime.png';
 
-import { NumericFormat } from 'react-number-format';
 import { useEffect, useState } from 'react';
 
 import { addProduct } from 'redux/slices/cart.slice';
 import { useAppDispatch } from 'redux/hooks';
 import { truncate } from 'lib/utils';
+
+import CurrencyFormat from 'components/common/CurrencyFormat';
 import ProductRating from './ProductRating';
 
 interface Props {
@@ -48,15 +49,7 @@ export default function ProductItem({ product }: Props) {
       <h4 className="my-3 text-lg hover:underline hover:cursor-pointer xl:line-clamp-3">{title}</h4>
       <ProductRating rating={rating?.rate} />
       <p className="my-2 line-clamp-3 md:line-clamp-5 xl:line-clamp-6">{description}</p>
-      <NumericFormat
-        value={price}
-        className="text-lg"
-        displayType="text"
-        thousandSeparator
-        prefix="$"
-        fixedDecimalScale
-        decimalScale={2}
-      />
+      <CurrencyFormat value={price} className="text-lg" />
       {isPrime && (
         <div className="flex items-center space-x-2">
           <Image
